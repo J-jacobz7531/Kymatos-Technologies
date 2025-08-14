@@ -1,103 +1,143 @@
-import Image from "next/image";
+"use client";
+import React from "react";
+import dynamic from "next/dynamic";
+import { ImagesSlider } from "@/components/ui/images-slider";
+import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+import { AppleCardsCarousel } from "@/components/ui/apple-cards-carousel";
+import { Timeline } from "@/components/ui/timeline";
+import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
+import { AnimatedTestimonials } from "@/components/ui/animated-testimonials";
+import { PinContainer } from "@/components/ui/pin-container";
+import { FloatingDock } from "@/components/ui/floating-dock";
 
-export default function Home() {
+// Dynamically import WorldMap component to avoid SSR issues
+const WorldMap = dynamic(() => import("@/components/ui/world-globe").then(mod => ({ default: mod.WorldMap })), {
+  ssr: false,
+  loading: () => <div className="w-full h-full flex items-center justify-center text-white">Loading Globe...</div>
+});
+import {
+  heroImages,
+  infoWords,
+  timelineData,
+  industriesData,
+  teamData,
+  navItems,
+  sampleArcs,
+} from "@/data/sections-data";
+
+export default function HomePage() {
+  const globeConfig = {
+    pointSize: 4,
+    globeColor: "#062056",
+    showAtmosphere: true,
+    atmosphereColor: "#FFFFFF",
+    atmosphereAltitude: 0.1,
+    emissive: "#062056",
+    emissiveIntensity: 0.1,
+    shininess: 0.9,
+    polygonColor: "rgba(255,255,255,0.7)",
+    ambientLight: "#38bdf8",
+    directionalLeftLight: "#ffffff",
+    directionalTopLight: "#ffffff",
+    pointLight: "#ffffff",
+    arcTime: 1000,
+    arcLength: 0.9,
+    rings: 1,
+    maxRings: 3,
+    initialPosition: { lat: 22.3193, lng: 114.1694 },
+    autoRotate: true,
+    autoRotateSpeed: 0.9,
+  };
+  const sampleArcs = [
+    { order: 1, startLat: 34.0522, startLng: -118.2437, endLat: 40.7128, endLng: -74.0060, arcAlt: 0.3, color: "#ffffff" },
+    { order: 1, startLat: 51.5072, startLng: -0.1276, endLat: 35.6762, endLng: 139.6503, arcAlt: 0.5, color: "#ffffff" },
+  ];
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <main className="min-h-screen bg-black text-white w-full">
+      {/* --- Floating Navigation --- */}
+      <FloatingDock items={navItems} desktopClassName="fixed bottom-10 left-1/2 -translate-x-1/2 z-50" mobileClassName="fixed bottom-4 right-4 z-50" />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* --- Section 1: Hero --- */}
+      <section id="home" className="h-screen w-full">
+        <ImagesSlider images={heroImages} overlay>
+          <div className="z-50 flex flex-col justify-center items-center text-center p-4">
+            <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 py-4">
+              Your Vision, Amplified
+            </h1>
+            <p className="font-extralight text-sm md:text-lg mt-4 text-neutral-300 max-w-2xl">
+              We build stunning digital experiences that captivate, engage, and convert.
+            </p>
+          </div>
+        </ImagesSlider>
+      </section>
+
+      {/* --- Section 2: Intro Text --- */}
+      <section className="py-20 px-4 max-w-5xl mx-auto text-center">
+        <TextGenerateEffect words={infoWords} className="text-2xl md:text-4xl" />
+      </section>
+
+      {/* --- Section 3: Work Showcase --- */}
+      <section id="work" className="bg-neutral-950 py-20">
+        <AppleCardsCarousel />
+      </section>
+      
+      {/* --- Section 4: Our Journey --- */}
+      <section id="journey" className="py-20">
+        <Timeline data={timelineData} />
+      </section>
+      
+      {/* --- Section 5: Industries / Applications --- */}
+      <section id="industries" className="py-20 flex flex-col items-center justify-center">
+        <h2 className="text-3xl md:text-5xl font-bold mb-10 text-center">
+          Industries We Transform
+        </h2>
+        <InfiniteMovingCards items={industriesData} direction="right" speed="slow" />
+      </section>
+      
+      {/* --- Section 6: About the Team --- */}
+      <section id="about" className="bg-neutral-950 py-20">
+        <h2 className="text-3xl md:text-5xl font-bold mb-10 text-center">
+          Meet Our Innovators
+        </h2>
+        <AnimatedTestimonials testimonials={teamData} autoplay/>
+      </section>
+
+      {/* --- Section 7: Global Presence --- */}
+      <section id="global" className="relative w-full h-screen bg-black py-20 overflow-hidden">
+        <h2 className="text-3xl md:text-5xl font-bold mb-10 text-center">
+          Global Presence
+        </h2>
+        <div className="relative w-full h-[80vh] flex items-center justify-center">
+          <WorldMap dots={sampleArcs} lineColor="#0ea5e9" />
+          <div className="absolute bottom-10 text-center pointer-events-none">
+            <h2 className="text-2xl md:text-4xl font-bold">We Operate Globally</h2>
+            <p className="text-neutral-400">Connecting creativity across continents.</p>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </section>
+
+      {/* --- Section 8: Contact & Footer --- */}
+      <footer id="contact" className="relative flex flex-col items-center w-full py-20 bg-black overflow-hidden px-4">
+        <div className="z-10 text-center mb-10 md:mb-0">
+          <PinContainer
+            title="Visit our office"
+            href="https://www.google.com/maps"
+          >
+            <div className="flex basis-full flex-col p-4 tracking-tight text-slate-100/50 sm:basis-1/2 w-[20rem] h-[20rem]">
+              <h3 className="max-w-xs !pb-2 !m-0 font-bold text-base text-slate-100">
+                Our Headquarters
+              </h3>
+              <div className="text-base !m-0 !p-0 font-normal">
+                <span className="text-slate-500">
+                  Located in the heart of the tech hub. Drop by for a coffee.
+                </span>
+              </div>
+              <div className="flex flex-1 w-full rounded-lg mt-4 bg-gradient-to-br from-violet-500 via-purple-500 to-blue-500" />
+            </div>
+          </PinContainer>
+        </div>
       </footer>
-    </div>
+    </main>
   );
 }
