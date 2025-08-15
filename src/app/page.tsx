@@ -6,9 +6,11 @@ import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { AppleCardsCarousel } from "@/components/ui/apple-cards-carousel";
 import { Timeline } from "@/components/ui/timeline";
 import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
+import { ExpandableCardDemo } from "@/components/ui/expandable-card-demo";
 import { AnimatedTestimonials } from "@/components/ui/animated-testimonials";
 import { PinContainer } from "@/components/ui/pin-container";
 import { FloatingDock } from "@/components/ui/floating-dock";
+import { Footer } from "@/components/ui/footer";
 
 // Dynamically import WorldMap component to avoid SSR issues
 const WorldMap = dynamic(() => import("@/components/ui/world-globe").then(mod => ({ default: mod.WorldMap })), {
@@ -61,22 +63,16 @@ export default function HomePage() {
       {/* --- Section 1: Hero --- */}
       <section id="home" className="h-screen w-full">
         <ImagesSlider images={heroImages} overlay>
-          <div className="z-50 flex flex-col justify-center items-center text-center p-4">
+          <div className="z-50 flex flex-col justify-center items-center text-center p-4 gap-6">
             <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 py-4">
               Your Vision, Amplified
             </h1>
-            <p className="font-extralight text-sm md:text-lg mt-4 text-neutral-300 max-w-2xl">
-              We build stunning digital experiences that captivate, engage, and convert.
-            </p>
+            <TextGenerateEffect words={infoWords} className="text-lg md:text-2xl text-neutral-300 max-w-2xl" />
           </div>
         </ImagesSlider>
       </section>
 
-      {/* --- Section 2: Intro Text --- */}
-      <section className="py-20 px-4 max-w-5xl mx-auto text-center">
-        <TextGenerateEffect words={infoWords} className="text-2xl md:text-4xl" />
-      </section>
-
+      
       {/* --- Section 3: Work Showcase --- */}
       <section id="work" className="bg-neutral-950 py-20">
         <AppleCardsCarousel />
@@ -95,7 +91,13 @@ export default function HomePage() {
         <InfiniteMovingCards items={industriesData} direction="right" speed="slow" />
       </section>
       
-      {/* --- Section 6: About the Team --- */}
+      {/* --- Section 6: Music Demo --- */}
+      <section id="music" className="py-20">
+        <h2 className="text-3xl md:text-5xl font-bold mb-10 text-center">Featured Tracks</h2>
+        <ExpandableCardDemo />
+      </section>
+      
+      {/* --- Section 7: About the Team --- */}
       <section id="about" className="bg-neutral-950 py-20">
         <h2 className="text-3xl md:text-5xl font-bold mb-10 text-center">
           Meet Our Innovators
@@ -103,7 +105,7 @@ export default function HomePage() {
         <AnimatedTestimonials testimonials={teamData} autoplay/>
       </section>
 
-      {/* --- Section 7: Global Presence --- */}
+      {/* --- Section 7: Global Presence ---
       <section id="global" className="relative w-full h-screen bg-black py-20 overflow-hidden">
         <h2 className="text-3xl md:text-5xl font-bold mb-10 text-center">
           Global Presence
@@ -115,29 +117,10 @@ export default function HomePage() {
             <p className="text-neutral-400">Connecting creativity across continents.</p>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* --- Section 8: Contact & Footer --- */}
-      <footer id="contact" className="relative flex flex-col items-center w-full py-20 bg-black overflow-hidden px-4">
-        <div className="z-10 text-center mb-10 md:mb-0">
-          <PinContainer
-            title="Visit our office"
-            href="https://www.google.com/maps"
-          >
-            <div className="flex basis-full flex-col p-4 tracking-tight text-slate-100/50 sm:basis-1/2 w-[20rem] h-[20rem]">
-              <h3 className="max-w-xs !pb-2 !m-0 font-bold text-base text-slate-100">
-                Our Headquarters
-              </h3>
-              <div className="text-base !m-0 !p-0 font-normal">
-                <span className="text-slate-500">
-                  Located in the heart of the tech hub. Drop by for a coffee.
-                </span>
-              </div>
-              <div className="flex flex-1 w-full rounded-lg mt-4 bg-gradient-to-br from-violet-500 via-purple-500 to-blue-500" />
-            </div>
-          </PinContainer>
-        </div>
-      </footer>
+      <Footer />
     </main>
   );
 }

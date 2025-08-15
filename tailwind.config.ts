@@ -9,6 +9,13 @@ const config: Config = {
   darkMode: "class",
   theme: {
     extend: {
+      colors: {
+        text: "#ffffff",
+        background: "#000000",
+        primary: "#553c8b",
+        secondary: "#9ea9f0",
+        accent: "#ccc1ff",
+      },
       animation: {
         scroll:
           "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
